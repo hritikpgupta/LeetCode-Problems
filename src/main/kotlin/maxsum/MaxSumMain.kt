@@ -10,18 +10,32 @@ fun main() {
      * Output : 39
      * We get maximum sum by adding subarray {4, 2, 10, 23} of size 4.
      */
-    val numList = arrayOf(1, 4, 2, 10, 23, 3, 1, 0, 20)
+    val numList = arrayOf(1, 4, 2, 10, 2, 3, 1, 0, 20)
     println(maxSum(numList.size, 4, numList))
+    println(maxSumWindowSlidingTechnique(numList.size, 4, numList))
+
 }
 
 fun maxSum(size: Int, maxElement: Int, numList: Array<Int>): Int {
     var maxSum = Int.MIN_VALUE
     for (i in 0 until size - maxElement + 1) {
         var currentSum = 0
-        for (j in 0 until maxElement){
+        for (j in 0 until maxElement) {
             currentSum += numList[i + j]
         }
         maxSum = currentSum.coerceAtLeast(maxSum)
     }
     return maxSum
+}
+
+fun maxSumWindowSlidingTechnique(size: Int, maxElement: Int, numList: Array<Int>): Int {
+    var maxSum = 0
+    for (i in 0 until maxElement) maxSum += numList[i]
+    var windowSum: Int = maxSum
+    for (i in maxElement until size) {
+        windowSum += numList[i] - numList[i - maxElement]
+        maxSum = maxSum.coerceAtLeast(windowSum)
+    }
+    return maxSum
+
 }
